@@ -75,7 +75,7 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
   }
   $result0 = $statement0->execute();
 
-  ?> <table>
+  ?><table>
    <?php
   $iterations = 0;
   $images=[];
@@ -87,6 +87,7 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
   $comname = preg_replace('/\'/', '_', $comname);
   $filename = "/By_Date/".date('Y-m-d')."/".$comname."/".$todaytable['File_Name'];
   $sciname = preg_replace('/ /', '_', $todaytable['Sci_Name']);
+ 
  
   // if we already searched flickr for this species before, use the previous image rather than doing an unneccesary api call
   $key = array_search($comname, array_column($images, 0));
@@ -100,11 +101,11 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
   ?>
         <?php if(isset($_GET['display_limit']) && is_numeric($_GET['display_limit'])){ ?>
           <tr class="relative" id="<?php echo $iterations; ?>">
-          <td class="relative"><a target="_blank" href="index.php?filename=<?php echo $todaytable['File_Name']; ?>"><img class="copyimage" width=25 src="images/copy.png"></a><?php echo $todaytable['Time'];?><br>
+          <td style="background:url(<?php echo $imageurl; ?>);background-size: cover;" class="relative"><a target="_blank" href="index.php?filename=<?php echo $todaytable['File_Name']; ?>"><img class="copyimage" width=25 src="images/copy.png"></a><?php echo $todaytable['Time'];?><br>
           <b><a class="a2" href="https://allaboutbirds.org/guide/<?php echo $comname;?>" target="top"><?php echo $todaytable['Com_Name'];?></a></b><br>
           <a class="a2" href="https://wikipedia.org/wiki/<?php echo $sciname;?>" target="top"><i><?php echo $todaytable['Sci_Name'];?></i></a><br>
           <b>Confidence:</b> <?php echo $todaytable['Confidence'];?><br>
-          <video onplay='setLiveStreamVolume(0)' onended='setLiveStreamVolume(1)' onpause='setLiveStreamVolume(1)' controls poster="<?php echo $imageurl;?>" preload="none" title="<?php echo $filename;?>"><source preload="none" src="<?php echo $filename;?>"></video>
+          <video onplay='this.style.transition = "0.8s"; this.style.opacity = 0;setLiveStreamVolume(0)' onended='this.style.transition = "0.8s"; this.style.opacity = 100;setLiveStreamVolume(1);' onpause='this.style.transition = "0.8s"; this.style.opacity = 100;setLiveStreamVolume(1)' controls poster="<?php echo $filename.".png"; ?>" preload="none" title="<?php echo $filename;?>"><source preload="none" src="<?php echo $filename;?>"></video>
           </td>
         <?php } else { //legacy mode ?>
           <tr class="relative" id="<?php echo $iterations; ?>">
@@ -176,7 +177,6 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
 </div>
 
 <script>
-
 var timer = '';
 searchterm = "";
 
