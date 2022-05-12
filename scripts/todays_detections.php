@@ -75,7 +75,7 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
   }
   $result0 = $statement0->execute();
 
-  ?><table>
+  ?> <table>
    <?php
   $iterations = 0;
   $images=[];
@@ -88,13 +88,12 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
   $filename = "/By_Date/".date('Y-m-d')."/".$comname."/".$todaytable['File_Name'];
   $sciname = preg_replace('/ /', '_', $todaytable['Sci_Name']);
  
- 
   // if we already searched flickr for this species before, use the previous image rather than doing an unneccesary api call
   $key = array_search($comname, array_column($images, 0));
   if($key !== false) {
     $imageurl = $images[$key][1];
   } else {
-    $flickrjson = json_decode(file_get_contents("https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=2158f6c5d66e89778bd0d340953f1bcf&text=".$comname."&license=7%2C9%2C10&sort=relevance&per_page=5&orientation=square,landscape&format=json&nojsoncallback=1"), true)["photos"]["photo"][0];
+    $flickrjson = json_decode(file_get_contents("https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=2158f6c5d66e89778bd0d340953f1bcf&text=".$comname."&license=7%2C9%2C10&sort=relevance&per_page=5&orientation=landscape,square&format=json&nojsoncallback=1"), true)["photos"]["photo"][0];
     $imageurl = 'http://farm' .$flickrjson["farm"]. '.static.flickr.com/' .$flickrjson["server"]. '/' .$flickrjson["id"]. '_'  .$flickrjson["secret"].  '.jpg';
     array_push($images, array($comname,$imageurl));
   }
@@ -105,9 +104,7 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
           <b><a class="a2" href="https://allaboutbirds.org/guide/<?php echo $comname;?>" target="top"><?php echo $todaytable['Com_Name'];?></a></b><br>
           <a class="a2" href="https://wikipedia.org/wiki/<?php echo $sciname;?>" target="top"><i><?php echo $todaytable['Sci_Name'];?></i></a><br>
           <b>Confidence:</b> <?php echo $todaytable['Confidence'];?><br>
-          <div style="position:relative !important;">
-            <a target="_blank" href="<?php echo $imageurl; ?>"><img id="birdimage<?php echo $iterations; ?>" style="position:absolute;z-index:999;height:65%;top:50%;left:50%;transform: translate(-50%, -50%);" src="<?php echo $imageurl; ?>"></a>
-            <video onplay='document.getElementById("birdimage<?php echo $iterations; ?>").style.opacity=0;setLiveStreamVolume(0)' onended='document.getElementById("birdimage<?php echo $iterations; ?>").style.opacity=100;setLiveStreamVolume(1);' onpause='setLiveStreamVolume(1)' controls poster="<?php echo $filename.".png"; ?>" preload="none" title="<?php echo $filename;?>"><source preload="none" src="<?php echo $filename;?>"></video></div>
+          <video style="width:940px" onplay='this.setAttribute("poster","<?php echo $filename.".png"; ?>");setLiveStreamVolume(0)' onended='setLiveStreamVolume(1)' onpause='setLiveStreamVolume(1)' controls poster="<?php echo $imageurl;?>" preload="none" title="<?php echo $filename;?>"><source preload="none" src="<?php echo $filename;?>"></video>
           </td>
         <?php } else { //legacy mode ?>
           <tr class="relative" id="<?php echo $iterations; ?>">
@@ -179,6 +176,7 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
 </div>
 
 <script>
+
 var timer = '';
 searchterm = "";
 
@@ -238,4 +236,3 @@ window.addEventListener("load", function(){
   loadDetections(40);
 });
 </script>
-
