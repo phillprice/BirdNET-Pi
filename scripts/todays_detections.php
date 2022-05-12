@@ -94,7 +94,7 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
   if($key !== false) {
     $imageurl = $images[$key][1];
   } else {
-    $flickrjson = json_decode(file_get_contents("https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=2158f6c5d66e89778bd0d340953f1bcf&text=".$comname."&license=7%2C9%2C10&sort=relevance&per_page=5&format=json&nojsoncallback=1"), true)["photos"]["photo"][0];
+    $flickrjson = json_decode(file_get_contents("https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=2158f6c5d66e89778bd0d340953f1bcf&text=".$comname."&license=7%2C9%2C10&sort=relevance&per_page=5&orientation=square,landscape&format=json&nojsoncallback=1"), true)["photos"]["photo"][0];
     $imageurl = 'http://farm' .$flickrjson["farm"]. '.static.flickr.com/' .$flickrjson["server"]. '/' .$flickrjson["id"]. '_'  .$flickrjson["secret"].  '.jpg';
     array_push($images, array($comname,$imageurl));
   }
@@ -106,7 +106,7 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
           <a class="a2" href="https://wikipedia.org/wiki/<?php echo $sciname;?>" target="top"><i><?php echo $todaytable['Sci_Name'];?></i></a><br>
           <b>Confidence:</b> <?php echo $todaytable['Confidence'];?><br>
           <div style="position:relative !important;">
-            <a target="_blank" href="<?php echo $imageurl; ?>"><img style="position:absolute;z-index:999;width:30%;top:9%;left:6.5%" src="<?php echo $imageurl; ?>"></a>
+            <a target="_blank" href="<?php echo $imageurl; ?>"><img style="position:absolute;z-index:999;height:65%;top:50%;left:50%;transform: translate(-50%, -50%);" src="<?php echo $imageurl; ?>"></a>
             <video onplay='setLiveStreamVolume(0)' onended='setLiveStreamVolume(1);' onpause='setLiveStreamVolume(1)' controls poster="<?php echo $filename.".png"; ?>" preload="none" title="<?php echo $filename;?>"><source preload="none" src="<?php echo $filename;?>"></video></div>
           </td>
         <?php } else { //legacy mode ?>
