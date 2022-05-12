@@ -106,8 +106,8 @@ if(isset($_GET['ajax_detections']) && $_GET['ajax_detections'] == "true"  ) {
           <a class="a2" href="https://wikipedia.org/wiki/<?php echo $sciname;?>" target="top"><i><?php echo $todaytable['Sci_Name'];?></i></a><br>
           <b>Confidence:</b> <?php echo $todaytable['Confidence'];?><br>
           <div style="position:relative !important;">
-            <a target="_blank" href="<?php echo $imageurl; ?>"><img style="position:absolute;z-index:999;height:65%;top:50%;left:50%;transform: translate(-50%, -50%);" src="<?php echo $imageurl; ?>"></a>
-            <video onplay='setLiveStreamVolume(0)' onended='setLiveStreamVolume(1);' onpause='setLiveStreamVolume(1)' controls poster="<?php echo $filename.".png"; ?>" preload="none" title="<?php echo $filename;?>"><source preload="none" src="<?php echo $filename;?>"></video></div>
+            <a target="_blank" href="<?php echo $imageurl; ?>"><img id="birdimage<?php echo $iterations; ?>" style="position:absolute;z-index:999;height:65%;top:50%;left:50%;transform: translate(-50%, -50%);" src="<?php echo $imageurl; ?>"></a>
+            <video onplay='document.getElementById("birdimage<?php echo $iterations; ?>").style.opacity=0;setLiveStreamVolume(0)' onended='document.getElementById("birdimage<?php echo $iterations; ?>").style.opacity=100;setLiveStreamVolume(1);' onpause='setLiveStreamVolume(1)' controls poster="<?php echo $filename.".png"; ?>" preload="none" title="<?php echo $filename;?>"><source preload="none" src="<?php echo $filename;?>"></video></div>
           </td>
         <?php } else { //legacy mode ?>
           <tr class="relative" id="<?php echo $iterations; ?>">
