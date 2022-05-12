@@ -145,7 +145,7 @@ while($results=$result3->fetchArray(SQLITE3_ASSOC)){
   $flickrjson = json_decode(file_get_contents("https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=2158f6c5d66e89778bd0d340953f1bcf&text=".str_replace('_', '+', $comname)."&license=7%2C9%2C10&sort=relevance&per_page=15&format=json&nojsoncallback=1"), true)["photos"]["photo"];
   foreach ($flickrjson as $val) {
       $imageurl = 'http://farm' .$val["farm"]. '.static.flickr.com/' .$val["server"]. '/' .$val["id"]. '_'  .$val["secret"].  '.jpg';
-      echo "<img src=\"$imageurl\">";
+      echo "<img style='vertical-align:top' src=\"$imageurl\">";
   }
 }}
 ?>
